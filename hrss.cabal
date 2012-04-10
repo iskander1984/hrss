@@ -6,13 +6,13 @@ license: AllRightsReserved
 license-file: ""
 copyright:
 maintainer:
-build-depends: base -any
+build-depends: base -any, haskell98
 stability:
 homepage:
 package-url:
 bug-reports:
 synopsis: hrss
-description:  
+description:
              .
              .
              .
@@ -24,7 +24,7 @@ data-files:
 data-dir: ""
 extra-source-files:
 extra-tmp-files:
- 
+
 executable: hrss
 main-is: Main.hs
 buildable: True
