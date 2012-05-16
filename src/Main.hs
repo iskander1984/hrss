@@ -4,7 +4,7 @@
 -- Copyright   :
 -- License     :  AllRightsReserved
 --
--- Maintainer  :
+-- Maintainer  : ponchik
 -- Stability   :
 -- Portability :
 --
@@ -19,6 +19,7 @@ module Main (
 import System
 import System (getArgs)
 import System.Console.GetOpt
+import RssReader (retrieveSubscriptionTitles)
 
 data Options = Options{
     version :: IO (),
@@ -40,7 +41,8 @@ options = [
 header = "Usage: main [Option...]"
 
 showSubscriptions = do
-    putStrLn "Placeholder for showing feeds"
+    subscriptionTitles <- retrieveSubscriptionTitles "http://javablogs.com/ViewDaysBlogs.action?view=rss"
+    putStrLn $ show subscriptionTitles
     exitWith ExitSuccess
 
 showVersion = do

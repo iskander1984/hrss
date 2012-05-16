@@ -6,17 +6,14 @@ license: AllRightsReserved
 license-file: ""
 copyright:
 maintainer:
-build-depends: base -any, haskell98
+build-depends: HTTP -any, base -any, bytestring -any,
+               haskell98 -any, hxt -any, hxt-xpath -any, network -any
 stability:
 homepage:
 package-url:
 bug-reports:
 synopsis: hrss
-description:
-             .
-             .
-             .
-             .
+description: .
 category:
 author:
 tested-with:
@@ -24,7 +21,7 @@ data-files:
 data-dir: ""
 extra-source-files:
 extra-tmp-files:
-
+ 
 executable: hrss
 main-is: Main.hs
 buildable: True
@@ -39,14 +36,14 @@ default-language:
 other-languages:
 default-extensions:
 other-extensions:
-extensions:
+extensions: Arrows
 extra-libraries:
 extra-lib-dirs:
 includes:
 install-includes:
 include-dirs:
 hs-source-dirs: src
-other-modules:
+other-modules: RssReader
 ghc-prof-options:
 ghc-shared-options:
 ghc-options:
