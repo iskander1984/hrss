@@ -36,11 +36,18 @@ atTag tag = deep (isElem >>> hasName tag)
 text = getChildren >>> getText
 textAtTag tag = atTag tag >>> text
 
-retrieveSubscriptionTitles :: String -> IO [Feed]
-retrieveSubscriptionTitles url = do
+retrieveSubscriptionTitles :: [String] -> IO [Feed]
+retrieveSubscriptionTitles urls =
+    do feeds <- sequence $ [getFeeds url | url <- urls]
+       return $ concat feeds
+
+
+getFeeds :: String -> IO [Feed]
+getFeeds url = do
     content <- retrieveContentFromUrl url
     xml     <- return $ parseXML content
-    result  <- runX (xml >>> getFeedTitle)
+    result  <- runX (xml >>> getFeed)
+    putStrLn $ show result
     return result
 
 retrieveContentFromUrl :: String -> IO String
@@ -52,11 +59,12 @@ retrieveContentFromUrl url =
                               rqBody = ""}
           uri = fromJust $ parseURI url
 
-getFeedTitle = getXPathTrees "//channel/title" >>>
-  proc x -> do
-    title     <- text           -< x
-    returnA                     -< Feed
-      { channelTitle = title}
+
+getFeed :: ArrowXml a => a XmlTree Feed
+getFeed = proc x-> do
+            title <- text <<< getXPathTrees "//channel/title" -< x
+            returnA -< Feed {channelTitle = title}
+
 
 {- | Download a URL.  (Left errorMessage) if an error,
 (Right doc) if success.

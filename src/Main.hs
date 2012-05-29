@@ -41,7 +41,7 @@ options = [
 header = "Usage: main [Option...]"
 
 showSubscriptions = do
-    subscriptionTitles <- retrieveSubscriptionTitles "http://javablogs.com/ViewDaysBlogs.action?view=rss"
+    subscriptionTitles <- retrieveSubscriptionTitles ["http://javablogs.com/ViewDaysBlogs.action?view=rss", "http://www.javaworld.com/index.xml"]
     putStrLn $ show subscriptionTitles
     exitWith ExitSuccess
 
