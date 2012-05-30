@@ -38,16 +38,16 @@ textAtTag tag = atTag tag >>> text
 
 retrieveSubscriptionTitles :: [String] -> IO [Feed]
 retrieveSubscriptionTitles urls =
-    do feeds <- sequence $ [getFeeds url | url <- urls]
+    do feeds <- sequence $ [retrieveFeed url | url <- urls]
        return $ concat feeds
 
 
-getFeeds :: String -> IO [Feed]
-getFeeds url = do
+
+retrieveFeed :: String -> IO [Feed]
+retrieveFeed url = do
     content <- retrieveContentFromUrl url
     xml     <- return $ parseXML content
-    result  <- runX (xml >>> getFeed)
-    putStrLn $ show result
+    result  <- runX (xml >>> parseFeed)
     return result
 
 retrieveContentFromUrl :: String -> IO String
@@ -60,8 +60,8 @@ retrieveContentFromUrl url =
           uri = fromJust $ parseURI url
 
 
-getFeed :: ArrowXml a => a XmlTree Feed
-getFeed = proc x-> do
+parseFeed :: ArrowXml a => a XmlTree Feed
+parseFeed = proc x-> do
             title <- text <<< getXPathTrees "//channel/title" -< x
             returnA -< Feed {channelTitle = title}
 

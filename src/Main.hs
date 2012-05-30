@@ -19,7 +19,7 @@ module Main (
 import System
 import System (getArgs)
 import System.Console.GetOpt
-import RssReader (retrieveSubscriptionTitles)
+import RssReader
 
 data Options = Options{
     version :: IO (),
@@ -42,8 +42,13 @@ header = "Usage: main [Option...]"
 
 showSubscriptions = do
     subscriptionTitles <- retrieveSubscriptionTitles ["http://javablogs.com/ViewDaysBlogs.action?view=rss", "http://www.javaworld.com/index.xml"]
-    putStrLn $ show subscriptionTitles
+    printFeeds subscriptionTitles
     exitWith ExitSuccess
+
+
+printFeeds :: [Feed] -> IO()
+printFeeds feed =
+    do mapM_ (putStrLn . show) feed
 
 showVersion = do
     putStrLn "hrss version 0.0.1"
